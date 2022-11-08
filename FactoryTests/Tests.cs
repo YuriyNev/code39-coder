@@ -14,4 +14,22 @@ public class FactoryTests
         Assert.Equal(Color.Black, charBarA[0].Color);
         Assert.Equal(Color.Black, charBarA[8].Color);
     }
+    
+    [Fact]
+    public void TextView1Test()
+    {
+        var charBarA = CharBarFactory.A();
+        var textView = charBarA.TextView();
+        
+        Assert.Equal("111010100010111", textView);
+    }
+    
+    [Fact]
+    public void BarCodeEncode1Test()
+    {
+        var creator = new BarCodeCreator();
+        var result = creator.Method("AA");
+        
+        Assert.Equal("111010100010111111010100010111", result);
+    }
 }
