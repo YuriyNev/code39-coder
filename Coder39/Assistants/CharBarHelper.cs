@@ -17,13 +17,14 @@ public static class CharBarHelper
 
         for (var i = 0; i < length; i++)
         {
-            var x = textView[i];
-            if (rule.IsNarrowBar(x))
-            {
-                Accumulate(strips, ref spaceWidth, ref barWidth, i == length - 1);
-            }
-            else if (rule.IsNarrowSpace(x))
-                Accumulate(strips, ref barWidth, ref spaceWidth, i == length - 1);
+            var c = textView[i];
+            var lastItem = i == length - 1;
+            
+            if (rule.IsNarrowBar(c))
+                Accumulate(strips, ref spaceWidth, ref barWidth, lastItem);
+            else 
+            if (rule.IsNarrowSpace(c))
+                Accumulate(strips, ref barWidth, ref spaceWidth, lastItem);
             else
                 throw new InvalidTextBarException();
 

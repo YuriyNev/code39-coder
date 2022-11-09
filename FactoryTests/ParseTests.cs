@@ -17,4 +17,9 @@ public class ParseTests
         
         Assert.NotNull(bar);
     }
+    [Fact]
+    public void BarParseInvalid2Test()
+    {
+        Assert.Throws<InvalidTextBarException>(() => "111010110010111".Parse());
+    }
 }
