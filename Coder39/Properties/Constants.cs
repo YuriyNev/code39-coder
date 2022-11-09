@@ -8,5 +8,6 @@ public static class Constants
     public const Color Background = Color.White;
 
     public const int WideSize = 3;
-    public const int NormSize = 1;
+    public const int NarrowSize = 1;
+    public const int CharCodeSize = 9;
 }

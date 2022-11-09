@@ -8,18 +8,18 @@ public class FactoryTests
     [Fact]
     public void Creation1Test()
     {
-        var charBarA = CharBarFactory.A();
+        var charBarA = CharBarFactory.A;
         
         Assert.Equal('A', charBarA.Char);
-        Assert.Equal(Color.Black, charBarA[0].Color);
-        Assert.Equal(Color.Black, charBarA[8].Color);
+        Assert.Equal(Color.Black, charBarA.Bar[0].Color);
+        Assert.Equal(Color.Black, charBarA.Bar[8].Color);
     }
     
     [Fact]
     public void TextView1Test()
     {
-        var charBarA = CharBarFactory.A();
-        var textView = charBarA.TextView();
+        var charBarA = CharBarFactory.A;
+        var textView = charBarA.Bar.TextView();
         
         Assert.Equal("111010100010111", textView);
     }

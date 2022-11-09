@@ -4,20 +4,15 @@ using Aspose.Coder39.Properties;
 
 namespace Aspose.Coder39.Types;
 
-public class CharBar : ReadOnlyCollection<Strip>
+public class Bar : ReadOnlyCollection<Strip>
 {
-    public char Char { get; }
-
-    public CharBar(char c, IList<Strip> bar) : base(bar)
+    public Bar(IList<Strip> bar) : base(bar)
     {
-        if (c <= 0) throw new ArgumentOutOfRangeException(nameof(c));
-        if (bar.Count != 9) throw new ArgumentOutOfRangeException(nameof(bar));
-        
-        Char = c;
+        if (bar.Count != Constants.CharCodeSize) throw new ArgumentOutOfRangeException(nameof(bar));
         
         Fill(bar);
     }
-
+    
     public string TextView()
     {
         var result = new StringBuilder();
@@ -36,6 +31,19 @@ public class CharBar : ReadOnlyCollection<Strip>
         return result.ToString();
     }
 
+    public override bool Equals(object? obj)
+    {
+        if (obj == null) return false;
+        if (obj is not Bar ch) return false;
+
+        return Items.SequenceEqual(ch.Items);
+    }
+
+    public override int GetHashCode()
+    {
+        return base.GetHashCode();
+    }
+
     private static void Fill(IList<Strip> bar)
     {
         for (int i = 0; i < bar.Count; i++)
@@ -46,5 +54,20 @@ public class CharBar : ReadOnlyCollection<Strip>
             
             bar[i].Fill(color);
         }
+    }
+}
+
+
+public class CharBar 
+{
+    public char Char { get; }
+    public Bar Bar { get; }
+
+    public CharBar(char c, Bar bar)
+    {
+        if (c <= 0) throw new ArgumentOutOfRangeException(nameof(c));
+        Bar = bar ?? throw new ArgumentNullException(nameof(bar));
+        
+        Char = c;
     }
 }
