@@ -14,36 +14,35 @@ public static class BarParser
         rule ??= new DefaultParseRule();
 
         var barParts = new List<BarPart>();
-        
-        int charCount = textView.Length / Constants.AbsCharSize;
-        for (int i = 0; i < charCount; i++)
+
+        var charCount = textView.Length / Constants.AbsCharSize;
+        for (var i = 0; i < charCount; i++)
         {
             var part = textView.Substring(i * Constants.AbsCharSize, Constants.AbsCharSize);
             var barPart = part.ParsePart(rule);
-            
+
             barParts.Add(barPart);
         }
 
         return new BarCode(barParts);
     }
-    
+
     public static BarPart ParsePart(this string textView, IParseRule rule)
     {
         var strips = new List<Strip>();
-        
-        int barWidth = 0;
-        int spaceWidth = 0;
+
+        var barWidth = 0;
+        var spaceWidth = 0;
         var length = textView.Length;
 
         for (var i = 0; i < length; i++)
         {
             var c = textView[i];
             var lastItem = i == length - 1;
-            
+
             if (rule.IsNarrowBar(c))
                 Accumulate(strips, ref spaceWidth, ref barWidth, lastItem);
-            else 
-            if (rule.IsNarrowSpace(c))
+            else if (rule.IsNarrowSpace(c))
                 Accumulate(strips, ref barWidth, ref spaceWidth, lastItem);
             else
                 throw new InvalidTextBarException();
@@ -64,9 +63,9 @@ public static class BarParser
             strips.Add(new Strip(width2));
             return;
         }
-        
+
         if (width1 <= 0) return;
-        
+
         if (width1 is > Constants.NarrowSize and < Constants.WideSize)
             throw new InvalidTextBarException();
 

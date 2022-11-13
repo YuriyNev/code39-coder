@@ -14,7 +14,10 @@ public class BarCode : ReadOnlyCollection<BarPart>
     {
     }
 
-    public string TextView() => Items.Aggregate(string.Empty, (current, item) => current + item.TextView());
+    public string TextView()
+    {
+        return Items.Aggregate(string.Empty, (current, item) => current + item.TextView());
+    }
 }
 
 public class BarPart : ReadOnlyCollection<Strip>
@@ -23,11 +26,11 @@ public class BarPart : ReadOnlyCollection<Strip>
     {
         Fill(bar);
     }
-    
+
     public string TextView()
     {
         var result = new StringBuilder();
-        
+
         foreach (var item in Items)
         {
             var baseChar = item.Color switch
@@ -57,12 +60,12 @@ public class BarPart : ReadOnlyCollection<Strip>
 
     private static void Fill(IList<Strip> bar)
     {
-        for (int i = 0; i < bar.Count; i++)
+        for (var i = 0; i < bar.Count; i++)
         {
-            var color = i % 2 == 0 
-                ? Constants.Foreground 
+            var color = i % 2 == 0
+                ? Constants.Foreground
                 : Constants.Background;
-            
+
             bar[i].Fill(color);
         }
     }

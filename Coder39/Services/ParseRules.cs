@@ -8,6 +8,13 @@ public interface IParseRule
 
 public class DefaultParseRule : IParseRule
 {
-    public bool IsNarrowBar(char c) => c == '1';
-    public bool IsNarrowSpace(char c) => c == '0';
+    public bool IsNarrowBar(char c)
+    {
+        return c == '1';
+    }
+
+    public bool IsNarrowSpace(char c)
+    {
+        return c == '0';
+    }
 }
