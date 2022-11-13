@@ -4,12 +4,23 @@ using Aspose.Coder39.Properties;
 
 namespace Aspose.Coder39.Types;
 
-public class Bar : ReadOnlyCollection<Strip>
+public class BarCode : ReadOnlyCollection<BarPart>
 {
-    public Bar(IList<Strip> bar) : base(bar)
+    public BarCode(IList<BarPart> list) : base(list)
     {
-        if (bar.Count != Constants.CharCodeSize) throw new ArgumentOutOfRangeException(nameof(bar));
-        
+    }
+
+    public BarCode(params BarPart[] parts) : base(new List<BarPart>(parts))
+    {
+    }
+
+    public string TextView() => Items.Aggregate(string.Empty, (current, item) => current + item.TextView());
+}
+
+public class BarPart : ReadOnlyCollection<Strip>
+{
+    public BarPart(IList<Strip> bar) : base(bar)
+    {
         Fill(bar);
     }
     
@@ -34,7 +45,7 @@ public class Bar : ReadOnlyCollection<Strip>
     public override bool Equals(object? obj)
     {
         if (obj == null) return false;
-        if (obj is not Bar ch) return false;
+        if (obj is not BarPart ch) return false;
 
         return Items.SequenceEqual(ch.Items);
     }
@@ -54,20 +65,5 @@ public class Bar : ReadOnlyCollection<Strip>
             
             bar[i].Fill(color);
         }
-    }
-}
-
-
-public class CharBar 
-{
-    public char Char { get; }
-    public Bar Bar { get; }
-
-    public CharBar(char c, Bar bar)
-    {
-        if (c <= 0) throw new ArgumentOutOfRangeException(nameof(c));
-        Bar = bar ?? throw new ArgumentNullException(nameof(bar));
-        
-        Char = c;
     }
 }

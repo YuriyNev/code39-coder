@@ -40,11 +40,11 @@ public class CompareTests
     [Fact]
     public void BarComparing1Test()
     {
-        Bar CreateBar()
+        BarPart CreateBar()
         {
             var strips = new List<Strip>();
             for (var i = 0; i < Constants.CharCodeSize; i++) strips.Add(new Strip(1));
-            var bar = new Bar(strips);
+            var bar = new BarPart(strips);
             return bar;
         }
 
@@ -53,5 +53,11 @@ public class CompareTests
 
         var equals = bar1.Equals(bar2);
         Assert.True(equals);
+    }
+
+    [Fact]
+    public void BarCodeComparing1Test()
+    {
+        
     }
 }

@@ -1,14 +1,34 @@
 ﻿using Aspose.Coder39.Properties;
+using Aspose.Coder39.Services;
 using Aspose.Coder39.Types;
 
-namespace Aspose.Coder39.Services;
+namespace Aspose.Coder39.Assistants;
 
-public static class CharBarHelper
+public static class BarParser
 {
-    public static Bar Parse(this string textView, IParseRule? rule = null)
+    public static BarCode ParseBarCode(this string textView, IParseRule? rule = null)
     {
+        if (textView.Length % Constants.AbsCharSize != 0)
+            throw new InvalidTextBarException();
+
         rule ??= new DefaultParseRule();
 
+        var barParts = new List<BarPart>();
+        
+        int charCount = textView.Length / Constants.AbsCharSize;
+        for (int i = 0; i < charCount; i++)
+        {
+            var part = textView.Substring(i * Constants.AbsCharSize, Constants.AbsCharSize);
+            var barPart = part.ParsePart(rule);
+            
+            barParts.Add(barPart);
+        }
+
+        return new BarCode(barParts);
+    }
+    
+    public static BarPart ParsePart(this string textView, IParseRule rule)
+    {
         var strips = new List<Strip>();
         
         int barWidth = 0;
@@ -32,7 +52,7 @@ public static class CharBarHelper
             if (spaceWidth > Constants.WideSize) throw new InvalidTextBarException();
         }
 
-        return new Bar(strips);
+        return new BarPart(strips);
     }
 
     private static void Accumulate(ICollection<Strip> strips, ref int width1, ref int width2, bool needFlush)
