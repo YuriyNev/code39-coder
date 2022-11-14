@@ -14,7 +14,7 @@ public class Code39 : IBarCoder
         {
             var part = bar[i];
             
-            if (CharBarProvider.TryChar(part, out var c))
+            if (CharBarProvider.TryGetChar(part, out var c))
             {
                 if (i == 0 || i == bar.Count - 1)
                 {

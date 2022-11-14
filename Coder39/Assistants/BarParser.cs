@@ -63,13 +63,17 @@ public static class BarParser
 
         if (needFlush)
         {
-            strips.Add(new Strip(width2));
-            width2 = 0;
+            if (width1 > 0)
+            {
+                strips.Add(new Strip(width1));
+                width1 = 0;
+            }
 
-            if (width1 <= 0) return;
-            
-            strips.Add(new Strip(width1));
-            width1 = 0;
+            if (width2 > 0)
+            {
+                strips.Add(new Strip(width2));
+                width2 = 0;
+            }
 
             return;
         }

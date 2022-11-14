@@ -83,14 +83,6 @@ public class BarPart : ReadOnlyCollection<Strip>, IEqualityComparer<BarPart>
 
     public int GetHashCode(BarPart obj)
     {
-        unchecked
-        {
-            int hash = 19;
-            foreach (var strip in Items)
-            {
-                hash = hash * 31 + strip.GetHashCode();
-            }
-            return hash;
-        }
+        return Items.Aggregate(19, HashCode.Combine);
     }
 }
