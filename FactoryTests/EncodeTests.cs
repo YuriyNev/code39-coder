@@ -8,7 +8,7 @@ public class EncodeTests
     [Fact]
     public void EncodeTextAATest1()
     {
-        var textAA = "100010111011101111010100010111111010100010111100010111011101";
+        var textAA = "100010111011101011101010001011101110101000101110100010111011101";
         var barCode = textAA.ParseBarCode();
 
         var encoder = new Code39();
@@ -23,6 +23,6 @@ public class EncodeTests
         var encoder = new Code39();
         var encoded = encoder.Encode("C");
         
-        Assert.Equal(45, encoded.ToString().Length);
+        Assert.Equal(47, encoded.ToString().Length);
     }
 }

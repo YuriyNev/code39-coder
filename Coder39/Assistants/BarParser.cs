@@ -8,7 +8,7 @@ public static class BarParser
 {
     public static BarCode ParseBarCode(this string textView, IParseRule? rule = null)
     {
-        if (textView.Length % Constants.AbsCharSize != 0)
+        if ((textView.Length + Constants.PartSeparator.Length) % (Constants.AbsCharSize + Constants.PartSeparator.Length) != 0)
             throw new InvalidTextBarException();
 
         rule ??= new DefaultParseRule();
@@ -18,7 +18,10 @@ public static class BarParser
         var charCount = textView.Length / Constants.AbsCharSize;
         for (var i = 0; i < charCount; i++)
         {
-            var part = textView.Substring(i * Constants.AbsCharSize, Constants.AbsCharSize);
+            var part = textView.Substring(
+                i * Constants.AbsCharSize + i * Constants.PartSeparator.Length,
+                Constants.AbsCharSize);
+            
             var barPart = part.ParsePart(rule);
 
             barParts.Add(barPart);

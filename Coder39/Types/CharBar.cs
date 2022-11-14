@@ -16,7 +16,9 @@ public class BarCode : ReadOnlyCollection<BarPart>
 
     public override string ToString()
     {
-        return Items.Aggregate(string.Empty, (current, item) => current + item);
+        var result = Items.Aggregate(string.Empty, (current, item) => current + item + Constants.PartSeparator);
+        result = result.Remove(result.Length - 1);
+        return result;
     }
 }
 

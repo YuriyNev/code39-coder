@@ -11,6 +11,6 @@ public static class Constants
     public const int NarrowSize = 1;
     public const int CharCodeSize = 9;
     public const int AbsCharSize = WideSize * 3 + 6 * NarrowSize;
-    public const char UnknownChar = '?';
     public const char SpecSymbol = '*';
+    public const string PartSeparator = "0";
 }

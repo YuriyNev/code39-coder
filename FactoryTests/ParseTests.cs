@@ -28,7 +28,7 @@ public class ParseTests
     [Fact]
     public void ParseBarCode1Test()
     {
-        var bar = "111010100010111111010100010111".ParseBarCode(new DefaultParseRule());
+        var bar = "1110101000101110111010100010111".ParseBarCode(new DefaultParseRule());
         
         Assert.NotNull(bar);
     }
