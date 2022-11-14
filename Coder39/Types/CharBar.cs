@@ -14,20 +14,20 @@ public class BarCode : ReadOnlyCollection<BarPart>
     {
     }
 
-    public string TextView()
+    public override string ToString()
     {
-        return Items.Aggregate(string.Empty, (current, item) => current + item.TextView());
+        return Items.Aggregate(string.Empty, (current, item) => current + item);
     }
 }
 
-public class BarPart : ReadOnlyCollection<Strip>
+public class BarPart : ReadOnlyCollection<Strip>, IEqualityComparer<BarPart>
 {
     public BarPart(IList<Strip> bar) : base(bar)
     {
         Fill(bar);
     }
 
-    public string TextView()
+    public override string ToString()
     {
         var result = new StringBuilder();
 
@@ -67,6 +67,28 @@ public class BarPart : ReadOnlyCollection<Strip>
                 : Constants.Background;
 
             bar[i].Fill(color);
+        }
+    }
+
+    public bool Equals(BarPart? x, BarPart? y)
+    {
+        if (x == null && y != null) return false;
+        if (x != null && y == null) return false;
+        if (x == null && y == null) return true; 
+        
+        return x!.SequenceEqual(y!);
+    }
+
+    public int GetHashCode(BarPart obj)
+    {
+        unchecked
+        {
+            int hash = 19;
+            foreach (var strip in Items)
+            {
+                hash = hash * 31 + strip.GetHashCode();
+            }
+            return hash;
         }
     }
 }

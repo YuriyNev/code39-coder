@@ -20,7 +20,7 @@ public class FactoryTests
     public void TextView1Test()
     {
         var result = CharBarProvider.TryGetBar('A', out var charBarA);
-        var textView = charBarA?.TextView();
+        var textView = charBarA?.ToString();
         
         Assert.Equal("111010100010111", textView);
     }

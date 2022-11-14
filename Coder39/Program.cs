@@ -1,27 +1,53 @@
-﻿using CommandLine;
+﻿using Aspose.Coder39.Assistants;
+using Aspose.Coder39.Services;
+using CommandLine;
 
 Parser.Default.ParseArguments<Options>(args)
-    .WithParsed<Options>(o =>
+    .WithParsed(o =>
     {
-        if (o.Action)
-        {
-            Console.WriteLine($"Verbose output enabled. Current Arguments: -v {o.Verbose}");
-            Console.WriteLine("Quick Start Example! App is in Verbose mode!");
-        }
-        else
-        {
-            Console.WriteLine($"Current Arguments: -v {o.Verbose}");
-            Console.WriteLine("Quick Start Example!");
-        }
+        Run(o.Action, o.Text);
     });
+
+void Run(ConsoleAction action, string value)
+{
+    var coder = new Code39();
+
+    if (action == ConsoleAction.Decode)
+    {
+        try
+        {
+            var barCode = value.ParseBarCode();
+            var decodedText = coder.Decode(barCode);
+            
+            Console.WriteLine(decodedText);
+        }
+        catch
+        {
+            Console.WriteLine("Error: Cannot decode!");
+        }
+    } 
+    else if (action == ConsoleAction.Encode)
+    {
+        try
+        {
+            var barCode = coder.Encode(value);
+        
+            Console.WriteLine(barCode);  
+        }
+        catch
+        {
+            Console.WriteLine("Error: Cannot encode!");
+        }
+    }
+}
 
 public class Options
 {
-    [Option('a', "action", Required = true, HelpText = "Action: 'decode' or 'encode'")]
-    public ConsoleAction? Action { get; set; }
+    [Option('a', "action", Required = true, HelpText = "Action: 'Decode' or 'Encode'")]
+    public ConsoleAction Action { get; set; }
     
-    [Option('v', "value", Required = true, HelpText = "Input text")]
-    public string Text { get; set; }
+    [Option('v', "value", Required = true, HelpText = "Value for the action")]
+    public string Text { get; set; } = null!;
 }
 
 public enum ConsoleAction

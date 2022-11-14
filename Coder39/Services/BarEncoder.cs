@@ -1,4 +1,5 @@
-﻿using Aspose.Coder39.Types;
+﻿using Aspose.Coder39.Properties;
+using Aspose.Coder39.Types;
 
 namespace Aspose.Coder39.Services;
 
@@ -9,11 +10,24 @@ public class Code39 : IBarCoder
         if (bar == null) throw new ArgumentNullException(nameof(bar));
 
         var result = string.Empty;
-        foreach (var part in bar)
+        for (var i = 0; i < bar.Count; i++)
+        {
+            var part = bar[i];
+            
             if (CharBarProvider.TryChar(part, out var c))
-                result += c;
+            {
+                if (i == 0 || i == bar.Count - 1)
+                {
+                    if (c != Constants.SpecSymbol) throw new DecodeBarException("Cannot decode bar!");
+                }
+                else
+                {
+                    result += c;
+                }
+            }
             else
                 throw new DecodeBarException("Cannot decode bar!");
+        }
 
         return result;
     }
@@ -21,13 +35,23 @@ public class Code39 : IBarCoder
     public BarCode Encode(string text)
     {
         if (text == null) throw new ArgumentNullException(nameof(text));
-
-        var codeContent = new List<BarPart>(text.Length);
-        foreach (var c in text)
+        text = text.ToUpper();
+        
+        var codeContent = new List<BarPart>(text.Length + 2);
+        
+        void AddChar(char c)
+        {
             if (CharBarProvider.TryGetBar(c, out var barPart))
                 codeContent.Add(barPart);
             else
                 throw new EncodeBarException($"Unknown char {c}!");
+        }
+
+        AddChar(Constants.SpecSymbol);
+        
+        foreach (var c in text) AddChar(c);
+        
+        AddChar(Constants.SpecSymbol);
 
         return new BarCode(codeContent);
     }

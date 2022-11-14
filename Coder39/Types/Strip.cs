@@ -36,6 +36,6 @@ public class Strip
 
     public override int GetHashCode()
     {
-        return base.GetHashCode();
+        return HashCode.Combine(Size, Color ?? byte.MinValue);
     }
 }
