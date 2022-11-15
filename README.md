@@ -1,6 +1,6 @@
 # Coder39
 
-Console application for encoding and decoding according to the Code39 specifictaion
+Console application for encoding and decoding according to the Code39 specification
 
 ## Example
 Encoding
